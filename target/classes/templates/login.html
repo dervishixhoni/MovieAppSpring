@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<div th:replace="~{base :: head}"></div>
+<body class="body">
+
+	<div class="sign section--bg" th:style="'background-image: url('+@{/img/section/section.jpg}+');'">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="sign__content">
+						<!-- authorization form -->
+						<form id="formLog" th:action="@{/login}" method="post" th:object="${loginUser}" class="sign__form">
+							<h1 class="m-5 text-white">Sign In</h1>
+
+							<div class="sign__group">
+								<input type="text" th:field="*{email}" class="sign__input" placeholder="Email">
+								<div th:if="${#fields.hasErrors('email')}" class="alert alert-danger">
+									<p th:errors="*{email}"></p>
+							</div>
+
+							<div class="sign__group">
+								<input type="password" th:field="*{password}" class="sign__input" placeholder="Password">
+							</div>
+
+							<button class="sign__btn" type="submit">Sign in</button>
+
+							<span class="sign__delimiter">or</span>
+
+							<span class="sign__text">Don't have an account? <a href="/registerPage">Sign up!</a></span>
+						</form>
+						<!-- end authorization form -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="~{base :: js}"></div>
+</body>
+
+</html>

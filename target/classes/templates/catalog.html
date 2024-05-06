@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<div th:replace="~{base :: head}"></div>
+<body class="body">
+<div th:replace="~{base :: header}"></div>
+<section class="section section--first section--bg" th:style="'background-image: url('+@{/img/section/section.jpg}+');'">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="section__wrap">
+					<!-- section title -->
+					<h1 class="section__title">Catalog</h1>
+					<!-- end section title -->
+
+					<!-- breadcrumb -->
+					<ul class="breadcrumb">
+						<li class="breadcrumb__item"><a href="/dashboard">Home</a></li>
+						<li class="breadcrumb__item breadcrumb__item--active">Catalog</li>
+					</ul>
+					<!-- end breadcrumb -->
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- end page title -->
+	<!-- filter (fixed position) -->
+	<div class="filter filter--fixed">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="filter__content">
+						<div class="filter__items">
+							<!-- filter item -->
+							<div class="filter__item" id="filter__genre">
+								<span class="filter__item-label">GENRE:</span>
+
+								<div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-genre"
+									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:if="${presentGenre}">
+										<input id="genrefilter" type="button" th:value="${presentGenre}">
+										<span></span>
+								</div>
+								<div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-genre"
+									 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:unless="${presentGenre}">
+									<input id="genrefilter" type="button" value="Action">
+									<span></span>
+								</div>
+
+								<ul class="filter__item-menu dropdown-menu scrollbar-dropdown">
+									<li>Action</li>
+									<li>Adventure</li>
+									<li>Animation</li>
+									<li>Comedy</li>
+									<li>Crime</li>
+									<li>Documentary</li>
+									<li>Drama</li>
+									<li>Family</li>
+									<li>Fantasy</li>
+									<li>History</li>
+									<li>Horror</li>
+									<li>Music</li>
+									<li>Mystery</li>
+									<li>Romance</li>
+									<li>Science Fiction</li>
+									<li>TV Movie</li>
+									<li>Thriller</li>
+									<li>War</li>
+									<li>Western</li>
+								</ul>
+
+							</div>
+							<!-- end filter item -->
+
+							<!-- filter item -->
+							<div class="filter__item" id="filter__rate">
+								<span class="filter__item-label">RATING:</span>
+
+								<div class="filter__item-btn dropdown-toggle" role="button" id="filter-rate"
+									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<div class="filter__range">
+										<div id="filter__imbd-start"></div>
+										<div id="filter__imbd-end"></div>
+									</div>
+									<span></span>
+								</div>
+
+								<div class="filter__item-menu filter__item-menu--range dropdown-menu"
+									aria-labelledby="filter-rate">
+									<div id="filter__imbd"></div>
+								</div>
+							</div>
+							<!-- end filter item -->
+
+							<!-- filter item -->
+							<div class="filter__item" id="filter__year">
+								<span class="filter__item-label">RELEASE YEAR:</span>
+
+								<div class="filter__item-btn dropdown-toggle" role="button" id="filter-year"
+									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<div class="filter__range">
+										<div id="filter__years-start"></div>
+										<div id="filter__years-end"></div>
+									</div>
+									<span></span>
+								</div>
+
+								<div class="filter__item-menu filter__item-menu--range dropdown-menu"
+									aria-labelledby="filter-year">
+									<div id="filter__years"></div>
+								</div>
+							</div>
+							<!-- end filter item -->
+						</div>
+
+						<!-- filter btn -->
+						<button onclick="getFilter()" class="filter__btn" type="button">apply filter</button>
+						<!-- end filter btn -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end filter (fixed position) -->
+
+	<!-- catalog -->
+	<div class="catalog">
+		<div class="container">
+			<div id="res" class="row row--grid">
+					<div th:each="rec : ${base}" class="col-6 col-sm-4 col-md-3 col-xl-2">
+						<div class="card">
+							<div class="card__cover">
+								<img th:src="'https://image.tmdb.org/t/p/w500'+${rec.get('poster_path')}" alt="">
+								<a th:href="'/details/'+${rec.get('id')}" class="card__play">
+									<i class="icon ion-ios-play"></i>
+								</a>
+								<span class="card__rate card__rate--yellow" th:text="${#numbers.formatDecimal(rec.get('vote_average'), 1, 1,'POINT')}"></span>
+							</div>
+							<div class="card__content">
+								<h3 class="card__title"><a th:href="'/details/'+${rec.get('id')}" th:text="${rec.get('title')}"></a></h3>
+								<span class="card__category">
+									<a th:each="g : ${rec.get('genre_ids')}" th:href="'/catalog/'+${g}" th:text="${genres.get(g)}"></a>
+								</span>
+							</div>
+						</div>
+				</div>
+			</div>
+			<div class="row" style="margin: auto;">
+				<!-- more -->
+				<div class="col-12">
+					<button onclick="loadmorecontent()" class="catalog__more" type="button">Load more</button>
+				</div>
+				<!-- end more -->
+			</div>
+		</div>
+		<!-- end catalog -->
+	</div>
+	<script>
+		function getFilter(b = 1) {
+			if (b == 1) {
+				loadmore = false
+			}
+			else {
+				loadmore = true
+			}
+			const genreDictionary = {
+				"Action": 28,
+				"Adventure": 12,
+				"Animation": 16,
+				"Comedy": 35,
+				"Crime": 80,
+				"Documentary": 99,
+				"Drama": 18,
+				"Family": 10751,
+				"Fantasy": 14,
+				"History": 36,
+				"Horror": 27,
+				"Music": 10402,
+				"Mystery": 9648,
+				"Romance": 10749,
+				"Science Fiction": 878,
+				"TV Movie": 10770,
+				"Thriller": 53,
+				"War": 10752,
+				"Western": 37,
+			};
+			const genres = {
+				28: "Action",
+				12: "Adventure",
+				16: "Animation",
+				35: "Comedy",
+				80: "Crime",
+				99: "Documentary",
+				18: "Drama",
+				10751: "Family",
+				14: "Fantasy",
+				36: "History",
+				27: "Horror",
+				10402: "Music",
+				9648: "Mystery",
+				10749: "Romance",
+				878: "Science Fiction",
+				10770: "TV Movie",
+				53: "Thriller",
+				10752: "War",
+				37: "Western",
+			}
+			const genre = document.getElementById("genrefilter").value;
+			const ratinglow = document.getElementById("filter__imbd-start").innerText
+			const ratinghigh = document.getElementById("filter__imbd-end").innerText
+			const yearlow = document.getElementById("filter__years-start").innerText
+			const yearhigh = document.getElementById("filter__years-end").innerText
+			const options = {
+				method: 'GET',
+				headers: {
+					accept: 'application/json',
+					Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5YTk0Y2QzNmM1ZDlhYmNlOGE2OTc1ZTQ1NzA4M2U0NSIsInN1YiI6IjY1MzdiZWVkZjQ5NWVlMDBmZjY1YmFjMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.uuPeImHHYdXO-uOU0SvkHLZlQrUVxqwiiuoxvu2lRXo'
+				}
+			};
+			const res = document.getElementById('res')
+			if (!loadmore) {
+				res.innerHTML = ''
+				b = 1
+				page = 1
+			}
+			console.log(page);
+			fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${b}&release_date.gte=${yearlow}-01-01&release_date.lte=${yearhigh}-12-31&sort_by=popularity.desc&vote_average.gte=${ratinglow}&vote_average.lte=${ratinghigh}&with_genres=${genreDictionary[genre]}`, options)
+				.then(response => response.json())
+				.then(response => {
+					response['results'].slice(0, 18).forEach(element => {
+						res.innerHTML += `
+						<div class="col-6 col-sm-4 col-md-3 col-xl-2">
+							<div class="card">
+								<div class="card__cover">
+									<img src="https://image.tmdb.org/t/p/w500${element['poster_path']}" alt="">
+									<a href="/details/${element['id']}" class="card__play">
+										<i class="icon ion-ios-play"></i>
+									</a>
+									<span class="card__rate card__rate--yellow">${parseFloat(element['vote_average'].toFixed(1))}</span>
+								</div>
+								<div class="card__content">
+									<h3 class="card__title"><a href="/details/${element['id']}">${element['title']}</a></h3>
+									<span class="card__category">
+									${(() => {
+								array = element['genre_ids']
+								output = ""
+								array.forEach(element => {
+									output += `
+												<a href="/catalog/${element}">${genres[element]}</a>
+														`
+								});
+								return output
+							})()}
+									</span>
+								</div>
+							</div>
+						</div>
+										`
+					});
+				})
+				.catch(err => console.error(err));
+		}
+		var page = 1
+		function loadmorecontent() {
+			page++
+			getFilter(page)
+		}
+	</script>
+	<div th:replace="~{base :: footer}"></div>
+</body>
+</html>

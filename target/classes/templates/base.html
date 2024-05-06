@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head" >
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">">
+    <link rel="stylesheet" href="../../resources/static/css/bootstrap-reboot.min.css" th:href="@{/css/bootstrap-reboot.min.css}">
+    <link rel="stylesheet" href="../../resources/static/css/bootstrap-grid.min.css" th:href="@{/css/bootstrap-grid.min.css}">
+    <link rel="stylesheet" href="../../resources/static/css/owl.carousel.min.css" th:href="@{/css/owl.carousel.min.css}">
+    <link rel="stylesheet" href="../../resources/static/css/jquery.mCustomScrollbar.min.css" th:href="@{/css/jquery.mCustomScrollbar.min.css}">
+    <link rel="stylesheet" href="../../resources/static/css/nouislider.min.css" th:href="@{/css/nouislider.min.css}">
+    <link rel="stylesheet" href="../../resources/static/css/ionicons.min.css" th:href="@{/css/ionicons.min.css}">
+    <link rel="stylesheet" href="../../resources/static/css/magnific-popup.css" th:href="@{/css/magnific-popup.css}">
+    <link rel="stylesheet" href="../../resources/static/css/plyr.css" th:href="@{/css/plyr.css}">
+    <link rel="stylesheet" href="../../resources/static/css/photoswipe.css" th:href="@{/css/photoswipe.css}">
+    <link rel="stylesheet" href="../../resources/static/css/default-skin.css" th:href="@{/css/default-skin.css}">
+    <link rel="stylesheet" href="../../resources/static/css/main.css" th:href="@{/css/main.css}">
+
+    <link rel="icon" type="image/png" href="../../resources/static/icon/favicon-32x32.png" th:href="@{/icon/favicon-32x32.png}" sizes="32x32">
+    <link rel="apple-touch-icon" href="../../resources/static/icon/favicon-32x32.png" th:href="@{/icon/favicon-32x32.png}">
+    <title>Online Movies, TV Shows & Cinema</title>
+</head>
+
+<body class="body">
+
+    <header class="header" th:fragment="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="header__content">
+
+                        <a href="/" class="header__logo">
+                            <img src="../../resources/static/img/logo.svg" th:src="@{/img/logo.svg}">
+                        </a>
+
+                        <ul class="header__nav">
+
+                            <li class="header__nav-item">
+                                <a class="header__nav-link" href="/">Home</a>
+                            </li>
+                            
+                            <li class="header__nav-item">
+                                <a class="header__nav-link" href="/catalog">Catalog</a>
+                            </li>
+
+                            <div th:if="${user}">
+                            <li class="header__nav-item">
+                                <a th:href="@{'/profile/'+${user.id}}" class="header__nav-link">Profile</a>
+                            </li>
+                            </div>
+
+                        </ul>
+
+                        <!-- header auth -->
+                        <div class="header__auth">
+                            <form th:action="@{/search}" method="post" class="header__search">
+                                <input class="header__search-input" type="text" placeholder="Search..." id="search" name="search">
+                                <button class="header__search-button" type="submit">
+                                    <i class="icon ion-ios-search"></i>
+                                </button>
+                                <button class="header__search-close" type="submit">
+                                    <i class="icon ion-md-close"></i>
+                                </button>
+                            </form>
+
+                            <button class="header__search-btn" type="submit">
+                                <i class="icon ion-ios-search"></i>
+                            </button>
+
+                            <div th:if="${user}">
+                            <a href="/logout" class="header__sign-in">
+                                <i class="icon ion-ios-log-out"></i>
+                                <span>log out</span>
+                            </a>
+                            </div>
+                            <div th:unless="${user}">
+                            <a href="/loginPage" class="header__sign-in">
+                                <i class="icon ion-ios-log-in"></i>
+                                <span>log in</span>
+                            </a>
+                            </div>
+                        </div>
+                        <!-- end header auth -->
+
+                        <!-- header menu btn -->
+                        <button class="header__btn" type="button">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div th:fragment="footer">
+        <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="footer__content">
+                        <a href="/" class="footer__logo">
+                            <!-- change logo -->
+                            <img src="img/logo.svg" alt="">
+                        </a>
+                        <nav class="footer__nav">
+                            <a href="/about">About Us</a>
+                            <a href="/contact">Contacts</a>
+                        </nav>
+
+                        <button class="footer__back" type="button">
+                            <i class="icon ion-ios-arrow-round-up"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- end footer -->
+
+    <!-- JS -->
+        <div th:fragment="js">
+            <script src="../../resources/static/js/jquery-3.5.1.min.js" th:src="@{/js/jquery-3.5.1.min.js}"></script>
+            <script src="../../resources/static/js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+            <script src="../../resources/static/js/owl.carousel.min.js" th:src="@{/js/owl.carousel.min.js}"></script>
+            <script src="../../resources/static/js/jquery.magnific-popup.min.js" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+            <script src="../../resources/static/js/jquery.mousewheel.min.js" th:src="@{/js/jquery.mousewheel.min.js}"></script>
+            <script src="../../resources/static/js/jquery.mCustomScrollbar.min.js" th:src="@{/js/jquery.mCustomScrollbar.min.js}"></script>
+            <script src="../../resources/static/js/wNumb.js" th:src="@{/js/wNumb.js}"></script>
+            <script src="../../resources/static/js/nouislider.min.js" th:src="@{/js/nouislider.min.js}"></script>
+            <script src="../../resources/static/js/plyr.min.js" th:src="@{/js/plyr.min.js}"></script>
+            <script src="../../resources/static/js/photoswipe.min.js" th:src="@{/js/photoswipe.min.js}"></script>
+            <script src="../../resources/static/js/photoswipe-ui-default.min.js" th:src="@{/js/photoswipe-ui-default.min.js}"></script>
+            <script src="../../resources/static/js/main.js" th:src="@{/js/main.js}"></script>
+    </div>
+</body>
+
+</html>

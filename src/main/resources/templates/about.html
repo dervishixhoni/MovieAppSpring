@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<div th:replace="~{base :: head}"></div>
+<body class="body">
+<div th:replace="~{base :: header}"></div>
+
+	<!-- page title -->
+	<section class="section section--first section--bg" th:style="'background-image: url('+@{/img/section/section.jpg}+');'">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="section__wrap">
+						<!-- section title -->
+						<h2 class="section__title">About Us</h2>
+						<!-- end section title -->
+
+						<!-- breadcrumb -->
+						<ul class="breadcrumb">
+							<li class="breadcrumb__item"><a href="/dashboard">Home</a></li>
+							<li class="breadcrumb__item breadcrumb__item--active">About Us</li>
+						</ul>
+						<!-- end breadcrumb -->
+					</div>
+				</div>John Doe
+			</div>
+		</div>
+	</section>
+	<!-- end page title -->
+	
+	<!-- about -->
+	<section class="section">
+		<div class="container">
+			<div class="row">
+				<!-- section title -->
+				<div class="col-12">
+					<h2 class="section__title section__title--mb"><b>HotFlix</b> – Best Place for Movies</h2>
+				</div>
+				<!-- end section title -->
+
+				<!-- section text -->
+				<div class="col-12">
+					<p class="section__text">Welcome to HotFlix, your ultimate destination for the best in movies and entertainment. We are passionate about film and dedicated to providing you with a top-tier cinematic experience right at your fingertips.</p>
+
+					<p class="section__text">At HotFlix, we believe that movies have the power to transport you to new worlds, stir your emotions, and offer a glimpse into the diverse stories that make up our world. We're committed to delivering an extensive and diverse selection of films that cater to all tastes and preferences.</p>
+				</div>
+				<!-- end section text -->
+
+				<!-- feature -->
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="feature">
+						<i class="icon ion-ios-tv feature__icon"></i>
+						<h3 class="feature__title">Ultra HD</h3>
+						<p class="feature__text">We're committed to delivering high-quality streaming, so you can enjoy your movies without interruption.</p>
+					</div>
+				</div>
+				<!-- end feature -->
+
+				<!-- feature -->
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="feature">
+						<i class="icon ion-ios-film feature__icon"></i>
+						<h3 class="feature__title">Film</h3>
+						<p class="feature__text">Our collection celebrates diversity, offering content from all corners of the world and from various genres.</p>
+					</div>
+				</div>
+				<!-- end feature -->
+
+				<!-- feature -->
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="feature">
+						<i class="icon ion-ios-globe feature__icon"></i>
+						<h3 class="feature__title">Community </h3>
+						<p class="feature__text">We're not just a platform; we're a community of movie enthusiasts. Join us in celebrating the art of filmmaking.</p>
+					</div>
+				</div>
+				<!-- end feature -->
+			</div>
+		</div>
+	</section>
+<div th:replace="~{base :: footer}"></div>
+</body>
+</html>
