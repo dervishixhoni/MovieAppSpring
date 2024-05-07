@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{base :: head}"></div>
+<body class="body">
+<div th:replace="~{base :: header}"></div>
+<!-- home -->
+<section class="home" th:style="'background-image: url('+@{/img/home/home__bg.jpg}+');'">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="home__title"><b>NEW ITEMS</b> OF THIS SEASON</h1>
+
+                <button class="home__nav home__nav--prev" type="button">
+                    <i class="icon ion-ios-arrow-round-back"></i>
+                </button>
+                <button class="home__nav home__nav--next" type="button">
+                    <i class="icon ion-ios-arrow-round-forward"></i>
+                </button>
+            </div>
+
+            <div class="col-12">
+                <div class="owl-carousel home__carousel home__carousel--bg">
+                    <div th:each="movie : ${movies}" class="card card--big">
+                        <div class="card__cover">
+                            <img th:src="@{'https://image.tmdb.org/t/p/w500' + ${movie.get('poster_path')}}" alt="">
+                            <a th:href="@{'/details/' + ${movie.get('id')}}" class="card__play">
+                                <i class="icon ion-ios-play"></i>
+                            </a>
+                            <span class="card__rate card__rate--yellow"
+                                  th:text="${#numbers.formatDecimal(movie.get('vote_average'), 1, 1,'POINT')}"></span>
+                        </div>
+                        <div class="card__content">
+                            <h3 class="card__title"><a th:href="@{'/details/' + ${movie.get('id')}}"
+                                                       th:text="${movie.get('title')}"></a></h3>
+                            <span class="card__category">
+            					<a th:each="genre : ${movie.get('genre_ids')}" th:href="@{'/catalog/' + ${genre}}"
+                                   th:text="${genres.get(genre)}"></a>
+        					</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end home -->
+
+<!-- content -->
+<section class="content">
+    <div class="content__head">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- content title -->
+                    <h2 class="content__title">Trending</h2>
+                    <!-- end content title -->
+
+                    <!-- content tabs nav -->
+                    <ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1"
+                               aria-selected="true">Today</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2"
+                               aria-selected="false">This Week</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3"
+                               aria-selected="false">Upcoming</a>
+                        </li>
+                    </ul>
+                    <!-- end content tabs nav -->
+
+                    <!-- content mobile tabs nav -->
+                    <div class="content__mobile-tabs" id="content__mobile-tabs">
+                        <div class="content__mobile-tabs-btn dropdown-toggle" role="navigation" id="mobile-tabs"
+                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <input type="button" value="Today">
+                            <span></span>
+                        </div>
+
+                        <div class="content__mobile-tabs-menu dropdown-menu" aria-labelledby="mobile-tabs">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab"
+                                                        href="#tab-1" role="tab" aria-controls="tab-1"
+                                                        aria-selected="true">Today</a>
+                                </li>
+
+                                <li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2"
+                                                        role="tab" aria-controls="tab-2" aria-selected="false">This
+                                    Week</a></li>
+                                <li class="nav-item"><a class="nav-link" id="3-tab" data-toggle="tab" href="#tab-3"
+                                                        role="tab" aria-controls="tab-3"
+                                                        aria-selected="false">Upcoming</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end content mobile tabs nav -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- content tabs -->
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
+                <div class="row row--grid">
+                    <!-- card -->
+                    <div th:each="m : ${trendingToday}" class="col-6 col-sm-4 col-md-3 col-xl-2">
+                        <div class="card">
+                            <div class="card__cover">
+                                <img th:src="@{'https://image.tmdb.org/t/p/w500' + ${m.get('poster_path')}}" alt="">
+                                <a th:href="@{'/details/' + ${m.get('id')}}" class="card__play">
+                                    <i class="icon ion-ios-play"></i>
+                                </a>
+                                <span class="card__rate card__rate--yellow"
+                                      th:text="${#numbers.formatDecimal(m.get('vote_average'), 1, 1,'POINT')}"></span>
+                            </div>
+                            <div class="card__content">
+                                <h3 class="card__title"><a th:href="@{'/details/' + ${m.get('id')}}"
+                                                           th:text="${m.get('title')}"></a></h3>
+                                <span class="card__category">
+                					<a th:each="genre : ${m.get('genre_ids')}" th:href="@{'/catalog/' + ${genre}}"
+                                       th:text="${genres.get(genre)}"></a>
+            					</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
+                <div class="row row--grid">
+                    <!-- card -->
+                    <div th:each="m : ${trendingWeek}" class="col-6 col-sm-4 col-md-3 col-xl-2">
+                        <div class="card">
+                            <div class="card__cover">
+                                <img th:src="@{'https://image.tmdb.org/t/p/w500' + ${m.get('poster_path')}}" alt="">
+                                <a th:href="@{'/details/' + ${m.get('id')}}" class="card__play">
+                                    <i class="icon ion-ios-play"></i>
+                                </a>
+                                <span class="card__rate card__rate--yellow"
+                                      th:text="${#numbers.formatDecimal(m.get('vote_average'), 1, 1,'POINT')}"></span>
+                            </div>
+                            <div class="card__content">
+                                <h3 class="card__title"><a th:href="@{'/details/' + ${m.get('id')}}"
+                                                           th:text="${m.get('title')}"></a></h3>
+                                <span class="card__category">
+                					<a th:each="genre : ${m.get('genre_ids')}" th:href="@{'/catalog/' + ${genre}}"
+                                       th:text="${genres.get(genre)}"></a>
+            					</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="3-tab">
+                <div class="row row--grid">
+                    <!-- card -->
+                    <div th:each="m : ${upcoming}" class="col-6 col-sm-4 col-md-3 col-xl-2">
+                        <div class="card">
+                            <div class="card__cover">
+                                <img th:src="@{'https://image.tmdb.org/t/p/w500' + ${m.get('poster_path')}}" alt="">
+                                <a th:href="@{'/details/' + ${m.get('id')}}" class="card__play">
+                                    <i class="icon ion-ios-play"></i>
+                                </a>
+                                <span class="card__rate card__rate--yellow"
+                                      th:text="${#numbers.formatDecimal(m.get('vote_average'), 1, 1,'POINT')}"></span>
+                            </div>
+                            <div class="card__content">
+                                <h3 class="card__title"><a th:href="@{'/details/' + ${m.get('id')}}"
+                                                           th:text="${m.get('title')}"></a></h3>
+                                <span class="card__category">
+									<a th:each="genre : ${m.get('genre_ids')}" th:href="@{'/catalog/' + ${genre}}"
+                                       th:text="${genres.get(genre)}"></a>
+								</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:replace="~{base :: footer}"></div>
+</body>
+</html>

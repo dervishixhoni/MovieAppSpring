@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<div th:replace="~{base :: head}"></div>
+<body class="body">
+<div th:replace="~{base :: header}"></div>
+
+<!-- details -->
+<section class="section section--details">
+    <!-- details content -->
+    <div class="container">
+        <div class="row">
+            <!-- title -->
+            <div class="col-12">
+                <h1 class="section__title section__title--mb" th:text="${movie.get('title')}"></h1>
+            </div>
+            <!-- end title -->
+
+            <!-- content -->
+            <div class="col-12 col-xl-6">
+                <div class="card card--details">
+                    <div class="row">
+                        <!-- card cover -->
+                        <div class="col-12 col-sm-5 col-md-4 col-lg-3 col-xl-5">
+                            <div class="card__cover">
+                                <img th:src="@{'https://image.tmdb.org/t/p/w500'+${movie.get('poster_path')}}" alt="">
+                                <span class="card__rate card__rate--yellow"
+                                      th:text="${#numbers.formatDecimal(movie.get('vote_average'), 1, 1,'POINT')}"></span>
+                            </div>
+                            <div th:if="${user}">
+                                <div th:if="${watchlist.contains(movie.get('id'))}">
+                                    <form id="favorite" th:action="@{/remove/{id}(id=${movie.get('id')})}" method="post">
+                                        <button class="card___trailer" type="submit">
+                                            <span id="nameofbutton">Remove</span>
+                                        </button>
+                                    </form>
+                                </div>
+                                <div th:unless="${watchlist.contains(movie.get('id'))}">
+                                    <form id="favorite" th:action="@{/watchlist}" th:object="${newWatchlist}" th:method="post">
+                                        <input type="hidden" id="rating" name="rating" th:value="${movie.get('vote_average')}"/>
+                                        <input type="hidden" id="movieId" name="movieId" th:value="${movie.get('id')}"/>
+                                        <input type="hidden" id="title" name="title" th:value="${movie.get('title')}"/>
+                                        <input type="hidden" id="releaseYear" name="releaseYear" th:value="${movie.get('release_date')}"/>
+                                        <button class="card___trailer" type="submit">
+                                            <span id="nameofbutton">Add to favorites</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div th:unless="${user}">
+                                <a class="card___trailer" href="/loginPage">
+                                    <span id="nameofbutton">Add to favorites</span>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- end card cover -->
+
+                        <!-- card content -->
+                        <div class="col-12 col-md-8 col-lg-9 col-xl-7">
+                            <div class="card__content">
+                                <ul class="card__meta">
+                                    <li><span>Genre:</span>
+                                        <th:block th:each="g : ${movie.get('genres')}">
+                                            <a href="#" th:text="${g.get('name')}"></a>
+                                        </th:block>
+                                    </li>
+                                    <li th:text="${movie.get('release_date')}"><span>Release date:</span></li>
+                                    <li th:text="${movie.get('runtime')} + ' min'"><span>Running time:</span></li>
+                                    <li><span>Country:</span>
+                                        <a href="#" th:text="${movie.getJSONArray('production_countries').getJSONObject(0).get('name')}"></a>
+                                    </li>
+                                </ul>
+                                <div class="card__description" th:text="${movie.get('tagline')}">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end card content -->
+                    </div>
+                </div>
+            </div>
+            <!-- end content -->
+            <div th:if="${trailerUrl != 'notrailer'}" class="col-12 col-xl-6 d-flex align-items-center">
+                <iframe id="player" width="560" height="315" th:src="'https://www.youtube.com/embed/' + ${trailerUrl.get('trailer')}"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+            </div>
+            <div th:unless="${trailerUrl != 'notrailer'}">
+                <!-- Content for when there is no trailer -->
+            </div>
+        </div>
+    </div>
+    <!-- end details content -->
+</section>
+<!-- end details -->
+
+<!-- content -->
+<section class="content">
+    <div class="content__head" style="border-bottom: 0px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- content title -->
+                    <h2 class="content__title">You may also like...</h2>
+                    <div class="row row--grid">
+                        <!-- end section title -->
+                        <div th:each="rec : ${recommendations}"
+                             class="col-6 col-sm-4 col-md-3 col-xl-2">
+                            <div class="card">
+                                <div class="card__cover">
+                                    <img th:src="@{'https://image.tmdb.org/t/p/w500' + ${rec.get('poster_path')}}" alt="">
+                                    <a th:href="@{'/details/' + ${rec.get('id')}}" class="card__play">
+                                        <i class="icon ion-ios-play"></i>
+                                    </a>
+                                    <span class="card__rate card__rate--yellow"
+                                          th:text="${#numbers.formatDecimal(rec.get('vote_average'), 1, 1,'POINT')}"></span>
+                                </div>
+                                <div class="card__content">
+                                    <h3 class="card__title"><a th:href="@{'/details/' + ${rec.get('id')}}"
+                                                               th:text="${rec.get('title')}"></a></h3>
+                                    <span class="card__category">
+                                        <a th:each="g : ${rec.get('genre_ids')}" th:href="@{'/catalog/' + ${g}}" th:text="${genres.get(g)}"></a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end sidebar -->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end content -->
+<div th:replace="~{base :: footer}"></div>
+</body>
+</html>

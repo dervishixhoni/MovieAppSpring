@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<div th:replace="~{base :: head}"></div>
+
+<body class="body">
+
+	<div class="sign section--bg" th:style="'background-image: url('+@{/img/section/section.jpg}+');'">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="sign__content">
+						<!-- registration form -->
+						<form id="formReg" th:action="@{/register}" class="sign__form" th:object="${user}" method="post">
+							<h1 class="m-5 text-white" >Sign Up</h1>
+
+							<div class="sign__group">
+								<input type="text" class="sign__input" placeholder="First Name" th:field="*{firstName}">
+								<div th:if="${#fields.hasErrors('firstName')}" class="alert alert-danger">
+									<p th:errors="*{firstName}"></p>
+								</div>
+							</div>
+
+							<div class="sign__group">
+								<input type="text" class="sign__input" placeholder="Last Name" th:field="*{lastName}">
+								<div th:if="${#fields.hasErrors('lastName')}" class="alert alert-danger">
+									<p th:errors="*{lastName}"></p>
+							</div>
+
+							<div class="sign__group">
+								<input type="text" class="sign__input" placeholder="Email" th:field="*{email}">
+								<div th:if="${#fields.hasErrors('email')}" class="alert alert-danger">
+									<p th:errors="*{email}"></p>
+							</div>
+
+							<div class="sign__group">
+								<input type="password" class="sign__input" placeholder="Password" th:field="*{password}">
+								<div th:if="${#fields.hasErrors('password')}" class="alert alert-danger">
+									<p th:errors="*{password}"></p>
+							</div>
+
+							<div class="sign__group">
+								<input type="password" class="sign__input" placeholder="Confirm Password" th:field="*{passwordConfirmation}">
+								<div th:if="${#fields.hasErrors('passwordConfirmation')}" class="alert alert-danger">
+									<p th:errors="*{passwordConfirmation}"></p>
+							</div>
+
+							<button class="sign__btn" type="submit">Sign up</button>
+
+							<span class="sign__delimiter">or</span>
+
+							<span class="sign__text">Already have an account? <a href="/loginPage">Sign in!</a></span>
+						</form>
+						<!-- registration form -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</script>
+	<div th:replace="~{base :: js}"></div>
+</body>
+</html>
